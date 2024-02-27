@@ -2,5 +2,18 @@ body{
     background: rgb(161, 32, 32);
 }
 .title{
-    font-size: 40px;
+    font-size: 2em;
 }
+.container{
+    text-align: center ;
+}
+.container1 {
+    text-align: center;
+    border: 1px solid black;
+    width: 80vw;
+    margin: 6em;
+}
+.logo{
+    width: 300px;
+}
+
