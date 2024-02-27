@@ -1,19 +1,55 @@
-body{
+body {
     background: rgb(161, 32, 32);
 }
-.title{
+
+.title {
     font-size: 2em;
 }
-.container{
-    text-align: center ;
+
+.techFav {
+    text-align: center; /* Centra horizontalmente el texto */
+    margin-bottom: 20px; /* Añade espacio entre el texto y las imágenes */
 }
+
+.container {
+    text-align: center;
+}
+
 .container1 {
     text-align: center;
-    border: 1px solid black;
+    border: 2px solid rgb(80, 73, 73);
+    border-radius: 2%;
     width: 80vw;
     margin: 6em;
+    padding: 0px 1em 2em 1em;
 }
-.logo{
-    width: 300px;
+
+.cards {
+    display: inline-block; /* Permite que las tarjetas estén en una fila */
+    margin: 0 10px; /* Ajusta el espacio entre las tarjetas */
+    text-align: center; /* Centra horizontalmente el contenido */
+    border: 2px solid rgb(66, 57, 57);
+    width: fit-content;
+    padding: 0px 1em 2em 1em;
+    border-radius: 10%;
+    transition: 2s;
+}
+.cards:hover {
+    background-color: red;
+}
+
+.logo {
+    width: 150px;
+    display: block; /* Asegura que las imágenes estén en una fila */
+    margin: 0 auto; /* Centra las imágenes horizontalmente */
+}
+
+.container2 {
+    text-align: center; /* Centra horizontalmente el contenido */
+    margin: auto;
+    padding: 1em;
+    border: 1px solid rgb(114, 88, 88);
+    border-radius: 5%;
+    width: 70vw;
 }
 
