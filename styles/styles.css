@@ -83,12 +83,19 @@ body {
     border-radius: 5px; 
     margin-bottom: 20px;
 }
-.button-container{
+/*.button-container{
     display: flex;
     justify-content: space-between;
-    width: 80%; /* Asegura que el contenedor ocupe todo el ancho disponible */
-    padding: 0 20px
 
+}*/
+#clearButton{
+    display: flex;
+    margin: auto 230px;
+    width: 200px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 .containerCard {
     text-align: center;
