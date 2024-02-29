@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="./reset/reset.css">
     <link rel="stylesheet" href="./styles/styles.css">
 </head>
-
 <body>
     <header class="container">
         <h1 class="title">Proyecto M1</h1>
@@ -25,27 +24,23 @@
             </div>
         </section>
         <section>
-            
             <div class="container2">
                 <div class="techFav">
-                    <h3 >Mis tecnologías favoritas</h3>
+                    <h3>Mis tecnologías favoritas</h3>
                 </div>
-                
                 <div class="cards">
                     <h4>HTML</h4>
-                    <img src="./html.png" class="logo" />
+                    <img src="./html.png" class="logo" alt="HTML Logo" />
                 </div>
                 <div class="cards">
-                    <H4>CSS</H4>
-                    <img src="./css.png" class="logo" />
-             
+                    <h4>CSS</h4>
+                    <img src="./css.png" class="logo" alt="CSS Logo" />
                 </div>
                 <div class="cards">
-                    <H4>JAVASCRIP</H4>
-                    <img src="./Javascript.png" class="logo" / >
-                </div>     
+                    <h4>JAVASCRIPT</h4>
+                    <img src="./Javascript.png" class="logo" alt="JavaScript Logo" />
+                </div>
             </div>
-
         </section>
         <section>
             <div>
@@ -53,28 +48,26 @@
                     <h5>Mis actividades favoritas</h5>
                 </div>
                 <form class="formulario">
-                    <div >
-                        <input class="nombre" type="text" name="nombre" placeholder="Nombre de la actividad">
-                    </div>
-                    <div >
-                            <textarea id="descripcion" name="descripcion" placeholder="Descripción de la actividad"></textarea>
+                    <div>
+                        <input id="nombre" type="text" name="nombre" placeholder="Nombre de la actividad">
                     </div>
                     <div>
-                        <input class="link" type="url" img="imagen" placeholder="Link de imagen">
+                        <textarea id="descripcion" name="descripcion" placeholder="Descripción de la actividad"></textarea>
                     </div>
-
-                    <button class="button">Agregar actividad</button>
-
+                    <div>
+                        <input id="link" type="url" name="imagen" placeholder="Link de imagen">
+                    </div>
+                    <button id="button">Agregar actividad</button>
                 </form>
+                <div class="containerCard" id="divContainerCards">Sin actividades por el momento</div>
             </div>
-            
         </section>
-
-           
     </main>
-
-    <script src="./scripts/index.js">
-
-    </script>
+    <hr>   
+     
+    <footer><p>&copy;2024 - Mi presentación</p></footer>
+    <script src="./scripts/index.js"></script>
 </body>
 </html>
+
+

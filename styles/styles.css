@@ -68,7 +68,7 @@ body {
  }
 
 /* Estilos para los campos de entrada dentro del formulario */
-.nombre{
+#nombre{
     display: block; 
     margin: 0 auto; 
     width: 800px; 
@@ -87,7 +87,7 @@ body {
     margin-bottom: 20px;
 }
 
-.link{
+#link{
     display: block; 
     margin: 0 auto; 
     width: 800px; 
@@ -95,9 +95,8 @@ body {
     border: 1px solid #ccc; 
     border-radius: 5px; 
     margin-bottom: 20px;
-
 }
-.button{
+#button{
     display: block; 
     margin: auto 230px; 
     width: 200px; 
@@ -106,3 +105,13 @@ body {
     border-radius: 5px; 
     margin-bottom: 20px;
 }
+.containerCard{
+    text-align: center;
+    margin:  auto ; 
+    width: 400px; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-bottom: 20px;
+}
+
