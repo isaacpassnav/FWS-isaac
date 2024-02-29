@@ -29,36 +29,34 @@ class Repository {
 // Crear una instancia de la clase Repository
 const myActivitiesRepository = new Repository();
 
-function activityCreateHTML(){
-    const {title, description, imgUrl}= activity;
+function activityCreateHTML(activity){
+    const {title, description, imgUrl} = activity; // Corrección de desestructuración
 
     const titulo = document.createElement("h3");
     titulo.textContent = title;
 
     const descripcion = document.createElement("p");
-    descripcion.textContent = descripcion;
+    descripcion.textContent = description; // Corrección de variable
     descripcion.classList.add("descripcion");
 
     const imagen = document.createElement("img");
-    imagen.src = imgUrl;
-    imagen.src = title;
+    imagen.src = imgUrl; // Corrección de asignación
 
-    const CuerpoCard = document.createElement("div");
+    const cuerpoCard = document.createElement("div"); // Corrección de variable
     cuerpoCard.classList.add("cuerpo");
     cuerpoCard.appendChild(imagen);
     cuerpoCard.appendChild(descripcion);
 
-    const TituloCard = document.createElement("div");
-    TituloCard.classList.add(TituloCard);
-    TituloCard.appendChild(titulo);
+    const tituloCard = document.createElement("div"); // Corrección de variable
+    tituloCard.classList.add("titulo"); // Corrección de clase
+    tituloCard.appendChild(titulo);
 
     const tarjeta = document.createElement("div");
-    tarjeta.appendChild(TituloCard);
-    tarjeta.appendChild(CuerpoCard);
+    tarjeta.appendChild(tituloCard);
+    tarjeta.appendChild(cuerpoCard);
     tarjeta.classList.add("tarjeta");
 
     return tarjeta;
-}
 // -----------------------------------------------------------
 
 function renderListActivities(){
@@ -73,29 +71,28 @@ function renderListActivities(){
     });
 }
 function agregarActividadHandler(event){
-    event.preventDeaful();
+    event.preventDefault(); 
 
-    const tituloInput = document.getElementById("title");
+    const tituloInput = document.getElementById("nombre"); 
     const descripcionInput = document.getElementById("descripcion");
-    const imagenUrlInput = document.getElementById("imgUrl");
+    const imagenUrlInput = document.getElementById("link"); 
 
-    const title = tituloInput.value.trin();
-    const descripcion = descripcionInput.value.trin();
-    const imgUrl = imagenUrlInput.value.trin();
+    const title = tituloInput.value.trim(); 
+    const descripcion = descripcionInput.value.trim();
+    const imgUrl = imagenUrlInput.value.trim();
 
     if (!title || !descripcion || !imgUrl){
         alert("todos deben ser completados.");
         return;
     }
 
-    repository.createActivity(title,descripcion,imgUrl);
+    myActivitiesRepository.createActivity(title, descripcion, imgUrl); 
 
-    renderListActivities(activitiesContainer, repository);
+    renderListActivities(); 
 
     tituloInput.value= "";
     descripcionInput.value= "";
     imagenUrlInput.value= "";
-
 }
 
 const activitiesContainer =document.getElementById("activities");
