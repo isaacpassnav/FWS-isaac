@@ -83,10 +83,13 @@ body {
     border-radius: 5px; 
     margin-bottom: 20px;
 }
-#clearButton{
-    
-}
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    width: 80%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+    padding: 0 20px
 
+}
 .containerCard {
     text-align: center;
     margin: auto; 
@@ -101,10 +104,10 @@ body {
 
 /* Estilos para las tarjetas de actividades */
 .tarjeta {
-    display: inline-block; /* Asegura que las tarjetas se muestren en línea */
-    margin: 10px; /* Añade un margen para separar las tarjetas */
-    width: calc(50% - 20px); /* Ajusta el ancho de las tarjetas para que se muestren dos por línea, ajusta los cálculos según sea necesario */
-    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el ancho y la altura de las tarjetas */
+    display: inline-block; 
+    margin: 10px; 
+    width: calc(50% - 20px); 
+    box-sizing: border-box; 
 }
 
 .cuerpo {
