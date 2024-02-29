@@ -1,5 +1,5 @@
 body {
-    background: rgb(161, 32, 32);
+    background: rgb(71, 68, 68);
 }
 
 .title {
@@ -17,13 +17,26 @@ body {
 
 .container1 {
     text-align: center;
-    border: 2px solid rgb(80, 73, 73);
-    border-radius: 2%;
-    width: 80vw;
-    margin: 6em;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    margin: 20px auto;
     padding: 0px 1em 2em 1em;
+    max-width: 800px; /* Ancho máximo para centrar el contenido */
 }
-
+.container2 {
+    text-align: center; /* Centra horizontalmente el contenido */
+    margin: 50px auto;
+    padding: 1em;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    max-width: 800px; /* Ancho máximo para centrar el contenido */
+    transition: transform 0,3s ease;
+}
+.container2:hover{
+    transform: translateY(5px);
+}
 .cards {
     display: inline-block; /* Permite que las tarjetas estén en una fila */
     margin: 0 10px; /* Ajusta el espacio entre las tarjetas */
@@ -36,20 +49,60 @@ body {
 }
 .cards:hover {
     background-color: red;
+    transform: scale(1.1);
 }
-
 .logo {
     width: 150px;
-    display: block; /* Asegura que las imágenes estén en una fila */
-    margin: 0 auto; /* Centra las imágenes horizontalmente */
+    display: block; 
+    transition: 0.5s ease; 
+}
+.logo:hover{
+    transform: scale(1.1);
+}
+.title5{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    transform: translateY(24px);
+    width: 610px;
+ }
+
+/* Estilos para los campos de entrada dentro del formulario */
+.nombre{
+    display: block; 
+    margin: 0 auto; 
+    width: 800px; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-bottom: 20px;
+}
+#descripcion{
+    display: block; 
+    margin: 0 auto; 
+    width: 760px; 
+    padding: 30px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-bottom: 20px;
 }
 
-.container2 {
-    text-align: center; /* Centra horizontalmente el contenido */
-    margin: auto;
-    padding: 1em;
-    border: 1px solid rgb(114, 88, 88);
-    border-radius: 5%;
-    width: 70vw;
-}
+.link{
+    display: block; 
+    margin: 0 auto; 
+    width: 800px; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-bottom: 20px;
 
+}
+.button{
+    display: block; 
+    margin: auto 230px; 
+    width: 200px; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-bottom: 20px;
+}
