@@ -1,7 +1,29 @@
 body {
     background: rgb(71, 68, 68);
 }
-
+.isaac-container {
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+}
+.isaac{
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0 ;
+    padding: 1em 1em 2em 2em;
+    max-width: 36%;
+    border-radius: 50% ;
+    object-fit: cover;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.4s;
+}
+.isaac:hover{
+    opacity: 0.7;
+}
 .title {
     font-size: 2em;
 }

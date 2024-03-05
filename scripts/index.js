@@ -97,8 +97,6 @@ function agregarActividadHandler(event) {
     descripcionInput.value = "";
     imagenUrlInput.value = "";
 }
-
-// Eliminamos la línea incorrecta que intentaba seleccionar un contenedor inexistente
 // const activitiesContainer = document.getElementById("activities");
 
 const enviarButton = document.getElementById("button");
