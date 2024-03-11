@@ -44,7 +44,6 @@ function activityCreateHTML(activity) {
 
     const cuerpoCard = document.createElement("div");
     cuerpoCard.classList.add("cuerpo");
-    // Asegúrate de agregar primero el título y luego la descripción
     cuerpoCard.appendChild(titulo);
     cuerpoCard.appendChild(descripcion);
     cuerpoCard.appendChild(imagen); // La imagen se coloca al final
@@ -85,7 +84,7 @@ function agregarActividadHandler(event) {
     const imgUrl = imagenUrlInput.value.trim();
 
     if (!title || !descripcion || !imgUrl) {
-        alert("todos deben ser completados.");
+        alert("todos los campos deben ser completados.");
         return;
     }
 

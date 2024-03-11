@@ -1,5 +1,7 @@
 body {
-    background: rgb(71, 68, 68);
+    background-image: url("/img/fondo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .isaac-container {
     border-radius: 15px;
@@ -35,11 +37,12 @@ body {
 
 .container {
     text-align: center;
+    padding: 8px 0em 2px 0em;
 }
 
 .container1, .container2 {
     text-align: center;
-    border: 2px solid #ccc;
+    border: 2px solid white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
@@ -91,7 +94,7 @@ body {
     margin: 0 auto; 
     width: 800px; 
     padding: 10px; 
-    border: 1px solid #ccc; 
+    border: 1px solid white; 
     border-radius: 5px; 
     margin-bottom: 20px;
 }
@@ -101,7 +104,7 @@ body {
     margin: auto 230px; 
     width: 200px; 
     padding: 10px; 
-    border: 1px solid #ccc; 
+    border: 1px solid white; 
     border-radius: 5px; 
     margin-bottom: 20px;
 }
@@ -115,7 +118,7 @@ body {
     margin: auto 230px;
     width: 200px;
     padding: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid white;
     border-radius: 5px;
     margin-bottom: 20px;
 }
@@ -124,7 +127,7 @@ body {
     margin: auto; 
     width: 400px; 
     padding: 10px; 
-    border: 1px solid #ccc; 
+    border: 1px solid white; 
     border-radius: 5px; 
     margin-bottom: 20px;
     display: flex;
