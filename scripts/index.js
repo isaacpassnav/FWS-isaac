@@ -101,4 +101,7 @@ function agregarActividadHandler(event) {
 const enviarButton = document.getElementById("button");
 enviarButton.addEventListener("click", agregarActividadHandler);
 
-
+module.exports = {
+    Activity,
+    Repository,
+};
