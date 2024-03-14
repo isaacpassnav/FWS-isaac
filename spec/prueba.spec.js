@@ -25,26 +25,45 @@
 
 const filtrar = (arr) => arr.filter((num) =>num%2==0);
 
-describe("Una prueba con objetos", () =>{
-  it("Yo espero que dos numeros sean iguales", () =>{
-    expect(5).toBe(5);
-    expect(10).toBe(10);
+describe("La funcion filtrar", () =>{
+  it("Debe estar definida", () =>{
+    expect(filtrar).toBeDefined()
   });
 
-  it("Yo espero que dos palabras sean iguales", () =>{
-    expect("Jorge").toBe("Jorge")
-    expect("Alejo").toBe("Alejo");
-
+  it("Debe retornar un array",() =>{
+    expect(Array.isArray(filtrar([1,2,3,4,5,6]))).toBe(true);
   });
-        //  OBJETOS SE USA EL MATCHER toEqual 
-  it("Yo espero que dos objetos iguales sean iguales", () => {
-    expect({nombre:"Jorge"}).toEqual({nombre:"Jorge"});
-    expect({nombre:"Alejo"}).toEqual({nombre:"Alejo"});
-  });
-      //   ARRAYS SE USA MATCHER toEqual
-  it("Yo espero que los arrays sean iguales", () => {
-    expect([1,2,3,4]).toEqual([1,2,3,4]);
-  })
 
+  it("Debe retornar un array con los numeros pares", () =>{
+    expect(filtrar([1,2,3,4,5,6])).toEqual([2,4,6]); //pares
+    expect(filtrar([2,4,6])).toEqual([2,4,6]);      // nuemos iguales
+    expect(filtrar([1,3,5,7,9])).toEqual([]);  //numeros impares
+    expect(filtrar([])).toEqual([]); // array bacio
+  });
 });
+// generar un set de tests siguiendo la metodología TDD. En este ejercicio vamos a construir una clase llamada ToDoList cuya función será almacenar, agregar y eliminar tareas por realizar. 
+
+
+// describe("Una prueba con objetos", () =>{
+//   it("Yo espero que dos numeros sean iguales", () =>{
+//     expect(5).toBe(5);
+//     expect(10).toBe(10);
+//   });
+
+//   it("Yo espero que dos palabras sean iguales", () =>{
+//     expect("Jorge").toBe("Jorge")
+//     expect("Alejo").toBe("Alejo");
+
+//   });
+//         //  OBJETOS SE USA EL MATCHER toEqual 
+//   it("Yo espero que dos objetos iguales sean iguales", () => {
+//     expect({nombre:"Jorge"}).toEqual({nombre:"Jorge"});
+//     expect({nombre:"Alejo"}).toEqual({nombre:"Alejo"});
+//   });
+//       //   ARRAYS SE USA MATCHER toEqual
+//   it("Yo espero que los arrays sean iguales", () => {
+//     expect([1,2,3,4]).toEqual([1,2,3,4]);
+//   })
+
+// });
 
