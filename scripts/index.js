@@ -8,7 +8,7 @@ class Activity {
 }
 
 class Repository {
-    constructor() {
+    constructor() { 
         this.activities = [];
         this.id = 0;
     }
@@ -105,3 +105,5 @@ module.exports = {
     Activity,
     Repository,
 };
+
+
