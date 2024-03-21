@@ -30,10 +30,9 @@ describe("La clase Repository",() =>{
         const activities = new Activity();
         expect(activities.createActivity.push()).toBeDefined();
     });
-
-    it("Debe tener un metodo deleteActivity",() =>{
-        const activities = new Activity();
+    it("Debe tener un metodo deleteActivity", () =>{
+        const activities = new  Activity();
         expect(activities.deleteActivity).toBeDefined();
     });
-}); 
+});
 
