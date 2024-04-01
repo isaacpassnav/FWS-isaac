@@ -6,7 +6,6 @@ class Activity {
         this.imgUrl = imgUrl;
     }
 }
-
 class Repository {
     constructor() { 
         this.activities = [];
@@ -25,7 +24,6 @@ class Repository {
         this.activities = this.activities.filter(activity => activity.id !== id);
     }
 }
-
 // Crear una instancia de la clase Repository
 const myActivitiesRepository = new Repository();
 
@@ -58,8 +56,6 @@ function activityCreateHTML(activity) {
 
     return tarjeta;
 }
-
-
 function renderListActivities() {
     const container = document.getElementById("divContainerCards");
     container.innerHTML = " ";
@@ -71,7 +67,6 @@ function renderListActivities() {
         container.appendChild(activity);
     });
 }
-
 function agregarActividadHandler(event) {
     event.preventDefault();
 
@@ -97,13 +92,9 @@ function agregarActividadHandler(event) {
     imagenUrlInput.value = "";
 }
 // const activitiesContainer = document.getElementById("activities");
-
 const enviarButton = document.getElementById("button");
 enviarButton.addEventListener("click", agregarActividadHandler);
 
-module.exports = {
-    Activity,
-    Repository,
-};
+module.exports = {Activity,Repository};
 
 

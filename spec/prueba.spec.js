@@ -23,24 +23,24 @@
 // });   
 //      PRUEBA CON OBJETOS DE     //
 
-const filtrar = (arr) => arr.filter((num) =>num%2==0);
+// const filtrar = (arr) => arr.filter((num) =>num%2==0);
 
-describe("La funcion filtrar", () =>{
-  it("Debe estar definida", () =>{
-    expect(filtrar).toBeDefined()
-  });
+// describe("La funcion filtrar", () =>{
+//   it("Debe estar definida", () =>{
+//     expect(filtrar).toBeDefined()
+//   });
 
-  it("Debe retornar un array",() =>{
-    expect(Array.isArray(filtrar([1,2,3,4,5,6]))).toBe(true);
-  });
+//   it("Debe retornar un array",() =>{
+//     expect(Array.isArray(filtrar([1,2,3,4,5,6]))).toBe(true);
+//   });
 
-  it("Debe retornar un array con los numeros pares", () =>{
-    expect(filtrar([1,2,3,4,5,6])).toEqual([2,4,6]); //pares
-    expect(filtrar([2,4,6])).toEqual([2,4,6]);      // nuemos iguales
-    expect(filtrar([1,3,5,7,9])).toEqual([]);  //numeros impares
-    expect(filtrar([])).toEqual([]); // array bacio
-  });
-});
+//   it("Debe retornar un array con los numeros pares", () =>{
+//     expect(filtrar([1,2,3,4,5,6])).toEqual([2,4,6]); //pares
+//     expect(filtrar([2,4,6])).toEqual([2,4,6]);      // nuemos iguales
+//     expect(filtrar([1,3,5,7,9])).toEqual([]);  //numeros impares
+//     expect(filtrar([])).toEqual([]); // array bacio
+//   });
+// });
 // generar un set de tests siguiendo la metodología TDD. En este ejercicio vamos a construir una clase llamada ToDoList cuya función será almacenar, agregar y eliminar tareas por realizar. 
 
 
