@@ -1,0 +1,13 @@
+body{
+    background-color: black;
+    color: white;
+};
+.imagen1{
+    display: inline-block;
+    margin: 0 10px;
+    text-align: center;
+    border: 2px solid rgb(66, 57, 57);
+    width: fit-content;
+    padding: 0px 1em 2em 1em;
+    border-radius: 10%;
+};
