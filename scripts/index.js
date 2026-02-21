@@ -141,7 +141,8 @@ function renderListActivities(repository, container, onDelete) {
     activityElements.forEach((activityElement) => container.appendChild(activityElement));
 }
 
-function createPresenter(repository) {
+function createPresenter(repository, options = {}) {
+    let useApi = Boolean(options.useApi);
     const form = document.getElementById("activityForm");
     const titleInput = document.getElementById("nombre");
     const descriptionInput = document.getElementById("descripcion");
@@ -172,34 +173,53 @@ function createPresenter(repository) {
             return;
         }
 
-        try {
-            const createdActivity = await createActivityInApi({ title, description, imgUrl });
-            repository.addExistingActivity(createdActivity);
-            syncAndRender();
-            clearForm();
-        } catch (_error) {
-            alert("No se pudo guardar en backend. Verifica que la API este activa.");
+        if (useApi) {
+            try {
+                const createdActivity = await createActivityInApi({ title, description, imgUrl });
+                repository.addExistingActivity(createdActivity);
+                syncAndRender();
+                clearForm();
+                return;
+            } catch (_error) {
+                useApi = false;
+            }
         }
+
+        repository.createActivity(title, description, imgUrl);
+        syncAndRender();
+        clearForm();
     }
 
     async function deleteSingleActivity(id) {
-        try {
-            await deleteActivityInApi(id);
-            repository.deleteActivity(id);
-            syncAndRender();
-        } catch (_error) {
-            alert("No se pudo eliminar en backend.");
+        if (useApi) {
+            try {
+                await deleteActivityInApi(id);
+                repository.deleteActivity(id);
+                syncAndRender();
+                return;
+            } catch (_error) {
+                useApi = false;
+            }
         }
+
+        repository.deleteActivity(id);
+        syncAndRender();
     }
 
     async function clearAllActivities() {
-        try {
-            await clearActivitiesInApi();
-            repository.clearActivities();
-            syncAndRender();
-        } catch (_error) {
-            alert("No se pudo limpiar actividades en backend.");
+        if (useApi) {
+            try {
+                await clearActivitiesInApi();
+                repository.clearActivities();
+                syncAndRender();
+                return;
+            } catch (_error) {
+                useApi = false;
+            }
         }
+
+        repository.clearActivities();
+        syncAndRender();
     }
 
     form.addEventListener("submit", addActivity);
@@ -231,16 +251,18 @@ async function initializeApp() {
     if (typeof window === "undefined") return;
 
     let initialActivities = loadActivitiesFromStorage();
+    let useApi = false;
 
     try {
         initialActivities = await fetchActivitiesFromApi();
+        useApi = true;
     } catch (_error) {
-        // Fallback local para desarrollo cuando la API no esta activa.
+        // Fallback local cuando la API no esta disponible.
     }
 
     const repository = new Repository(initialActivities);
 
-    createPresenter(repository);
+    createPresenter(repository, { useApi });
     initializeVisualEffects();
 }
 
