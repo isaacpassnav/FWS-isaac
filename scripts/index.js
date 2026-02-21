@@ -72,6 +72,22 @@ function isValidHttpUrl(value) {
     }
 }
 
+function normalizeImageUrl(rawValue) {
+    if (typeof rawValue !== "string") return "";
+    const trimmedValue = rawValue.trim();
+    if (!trimmedValue) return "";
+
+    if (trimmedValue.startsWith("http://") || trimmedValue.startsWith("https://")) {
+        return trimmedValue;
+    }
+
+    if (trimmedValue.startsWith("//")) {
+        return `https:${trimmedValue}`;
+    }
+
+    return `https://${trimmedValue}`;
+}
+
 async function fetchActivitiesFromApi(apiBaseUrl) {
     const response = await fetch(`${apiBaseUrl}/activities`);
     if (!response.ok) throw new Error("No se pudo obtener actividades.");
@@ -112,6 +128,12 @@ function activityCreateHTML(activity, onDelete) {
     const imageElement = document.createElement("img");
     imageElement.src = imgUrl;
     imageElement.alt = title;
+    imageElement.loading = "lazy";
+    imageElement.referrerPolicy = "no-referrer";
+    imageElement.addEventListener("error", () => {
+        imageElement.src = "https://placehold.co/600x360/0f2743/eef4ff?text=Imagen+no+disponible";
+        imageElement.alt = "Imagen no disponible";
+    });
 
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
@@ -153,6 +175,7 @@ function renderListActivities(repository, container, onDelete) {
 function createPresenter(repository, options = {}) {
     let useApi = Boolean(options.useApi);
     const apiBaseUrl = options.apiBaseUrl || LOCAL_API_BASE_URL;
+    let notifiedApiFallback = false;
     const form = document.getElementById("activityForm");
     const titleInput = document.getElementById("nombre");
     const descriptionInput = document.getElementById("descripcion");
@@ -176,7 +199,7 @@ function createPresenter(repository, options = {}) {
 
         const title = titleInput.value.trim();
         const description = descriptionInput.value.trim();
-        const imgUrl = imageUrlInput.value.trim();
+        const imgUrl = normalizeImageUrl(imageUrlInput.value);
 
         if (!title || !description || !imgUrl) {
             alert("Todos los campos deben ser completados.");
@@ -196,6 +219,10 @@ function createPresenter(repository, options = {}) {
                 return;
             } catch (_error) {
                 useApi = false;
+                if (!notifiedApiFallback) {
+                    alert("No hay conexion con la API. Se guardara en modo local.");
+                    notifiedApiFallback = true;
+                }
             }
         }
 
@@ -213,6 +240,10 @@ function createPresenter(repository, options = {}) {
                 return;
             } catch (_error) {
                 useApi = false;
+                if (!notifiedApiFallback) {
+                    alert("No hay conexion con la API. Operando en modo local.");
+                    notifiedApiFallback = true;
+                }
             }
         }
 
@@ -229,6 +260,10 @@ function createPresenter(repository, options = {}) {
                 return;
             } catch (_error) {
                 useApi = false;
+                if (!notifiedApiFallback) {
+                    alert("No hay conexion con la API. Operando en modo local.");
+                    notifiedApiFallback = true;
+                }
             }
         }
 
@@ -277,7 +312,7 @@ async function initializeApp() {
             useApi = true;
         } catch (_error) {
             useApi = false;
-            // Fallback local cuando la API no esta disponible.
+            console.warn("API no disponible: operando con localStorage.");
         }
     }
 
