@@ -6,94 +6,194 @@ class Activity {
         this.imgUrl = imgUrl;
     }
 }
+
 class Repository {
-    constructor() { 
+    constructor(initialActivities = []) {
         this.activities = [];
         this.id = 0;
+        this.hydrate(initialActivities);
     }
+
+    hydrate(rawActivities = []) {
+        this.activities = rawActivities.map(
+            (activity) => new Activity(activity.id, activity.title, activity.description, activity.imgUrl)
+        );
+        this.id = this.activities.reduce((maxId, activity) => Math.max(maxId, activity.id), 0);
+    }
+
     getAllActivities() {
-        return this.activities;
+        return [...this.activities];
     }
+
     createActivity(title, description, imgUrl) {
-        this.id++;
+        this.id += 1;
         const activity = new Activity(this.id, title, description, imgUrl);
         this.activities.push(activity);
+        return activity;
     }
+
     deleteActivity(id) {
-        this.activities = this.activities.filter(activity => activity.id !== id);
+        this.activities = this.activities.filter((activity) => activity.id !== id);
     }
-};
-// Crear una instancia de la clase Repository
-const myActivitiesRepository = new Repository();
 
-function activityCreateHTML(activity) {
-    const {title, description, imgUrl} = activity;
-
-    const titulo = document.createElement("h3");
-    titulo.textContent = title;
-
-    const descripcion = document.createElement("p");
-    descripcion.textContent = description;
-    descripcion.classList.add("descripcion");
-
-    const imagen = document.createElement("img");
-    imagen.src = imgUrl;
-
-    const cuerpoCard = document.createElement("div");
-    cuerpoCard.classList.add("cuerpo");
-    cuerpoCard.appendChild(titulo);
-    cuerpoCard.appendChild(descripcion);
-    cuerpoCard.appendChild(imagen); // La imagen se coloca al final
-
-    const tituloCard = document.createElement("div");
-    tituloCard.classList.add("titulo");
-    tituloCard.appendChild(cuerpoCard);
-
-    const tarjeta = document.createElement("div");
-    tarjeta.appendChild(tituloCard);
-    tarjeta.classList.add("tarjeta");
-
-    return tarjeta;
+    clearActivities() {
+        this.activities = [];
+    }
 }
-function renderListActivities() {
-    const container = document.getElementById("divContainerCards");
-    container.innerHTML = " ";
 
-    const activities = myActivitiesRepository.getAllActivities();
-    const activityElements = activities.map(activityCreateHTML);
+const STORAGE_KEY = "isaac.activities";
 
-    activityElements.forEach(activity => {
-        container.appendChild(activity);
-    });
-};
-function agregarActividadHandler(event) {
-    event.preventDefault();
+function loadActivitiesFromStorage() {
+    if (typeof localStorage === "undefined") return [];
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (_error) {
+        return [];
+    }
+}
 
-    const tituloInput = document.getElementById("nombre");
-    const descripcionInput = document.getElementById("descripcion");
-    const imagenUrlInput = document.getElementById("link");
+function saveActivitiesToStorage(activities) {
+    if (typeof localStorage === "undefined") return;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(activities));
+}
 
-    const title = tituloInput.value.trim();
-    const descripcion = descripcionInput.value.trim();
-    const imgUrl = imagenUrlInput.value.trim();
+function activityCreateHTML(activity, onDelete) {
+    const { id, title, description, imgUrl } = activity;
 
-    if (!title || !descripcion || !imgUrl) {
-        alert("todos los campos deben ser completados.");
+    const titleElement = document.createElement("h3");
+    titleElement.textContent = title;
+
+    const descriptionElement = document.createElement("p");
+    descriptionElement.textContent = description;
+    descriptionElement.classList.add("descripcion");
+
+    const imageElement = document.createElement("img");
+    imageElement.src = imgUrl;
+    imageElement.alt = title;
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "Eliminar";
+    deleteButton.className = "delete-button";
+    deleteButton.addEventListener("click", () => onDelete(id));
+
+    const bodyCard = document.createElement("div");
+    bodyCard.classList.add("cuerpo");
+    bodyCard.appendChild(titleElement);
+    bodyCard.appendChild(descriptionElement);
+    bodyCard.appendChild(imageElement);
+    bodyCard.appendChild(deleteButton);
+
+    const card = document.createElement("article");
+    card.classList.add("tarjeta");
+    card.appendChild(bodyCard);
+
+    return card;
+}
+
+function renderListActivities(repository, container, onDelete) {
+    container.innerHTML = "";
+
+    const activities = repository.getAllActivities();
+
+    if (!activities.length) {
+        const emptyState = document.createElement("p");
+        emptyState.className = "empty-state";
+        emptyState.textContent = "Sin actividades por el momento.";
+        container.appendChild(emptyState);
         return;
     }
 
-    myActivitiesRepository.createActivity(title, descripcion, imgUrl);
-
-    renderListActivities();
-
-    tituloInput.value = "";
-    descripcionInput.value = "";
-    imagenUrlInput.value = "";
+    const activityElements = activities.map((activity) => activityCreateHTML(activity, onDelete));
+    activityElements.forEach((activityElement) => container.appendChild(activityElement));
 }
-// const activitiesContainer = document.getElementById("activities");
-const enviarButton = document.getElementById("button");
-enviarButton.addEventListener("click", agregarActividadHandler);
 
-module.exports = {Activity,Repository};
+function createPresenter(repository) {
+    const form = document.getElementById("activityForm");
+    const titleInput = document.getElementById("nombre");
+    const descriptionInput = document.getElementById("descripcion");
+    const imageUrlInput = document.getElementById("link");
+    const clearButton = document.getElementById("clearButton");
+    const container = document.getElementById("divContainerCards");
 
+    function syncAndRender() {
+        saveActivitiesToStorage(repository.getAllActivities());
+        renderListActivities(repository, container, deleteSingleActivity);
+    }
 
+    function clearForm() {
+        titleInput.value = "";
+        descriptionInput.value = "";
+        imageUrlInput.value = "";
+    }
+
+    function addActivity(event) {
+        event.preventDefault();
+
+        const title = titleInput.value.trim();
+        const description = descriptionInput.value.trim();
+        const imgUrl = imageUrlInput.value.trim();
+
+        if (!title || !description || !imgUrl) {
+            alert("Todos los campos deben ser completados.");
+            return;
+        }
+
+        repository.createActivity(title, description, imgUrl);
+        syncAndRender();
+        clearForm();
+    }
+
+    function deleteSingleActivity(id) {
+        repository.deleteActivity(id);
+        syncAndRender();
+    }
+
+    function clearAllActivities() {
+        repository.clearActivities();
+        syncAndRender();
+    }
+
+    form.addEventListener("submit", addActivity);
+    clearButton.addEventListener("click", clearAllActivities);
+
+    syncAndRender();
+}
+
+function initializeVisualEffects() {
+    if (typeof window === "undefined") return;
+
+    if (window.AOS) {
+        window.AOS.init({ duration: 650, once: true, offset: 50, easing: "ease-out-cubic" });
+    }
+
+    if (window.VanillaTilt) {
+        const tiltTargets = document.querySelectorAll(".tilt");
+        window.VanillaTilt.init(tiltTargets, {
+            max: 8,
+            speed: 450,
+            glare: true,
+            "max-glare": 0.2,
+            scale: 1.02
+        });
+    }
+}
+
+function initializeApp() {
+    if (typeof window === "undefined") return;
+
+    const initialActivities = loadActivitiesFromStorage();
+    const repository = new Repository(initialActivities);
+
+    createPresenter(repository);
+    initializeVisualEffects();
+}
+
+initializeApp();
+
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = { Activity, Repository };
+}

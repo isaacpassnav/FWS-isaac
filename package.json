@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jasmine",
-    "start": "live-server"
+    "start": "live-server --no-css-inject --open=front/index.html --watch=front,scripts,img --ignore=node_modules,.git,spec"
   },
   "keywords": [],
   "author": "",

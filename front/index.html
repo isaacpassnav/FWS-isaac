@@ -1,85 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/style.css">
+    <title>Portafolio | Isaac</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/reset.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 </head>
 <body>
-    <header>
-        <div class="cinema">
-            <img src="./pages/cartelera.png" class="cartelera" alt="cartelera">
-        </div>  
+    <div class="bg-orb bg-orb-left"></div>
+    <div class="bg-orb bg-orb-right"></div>
+
+    <header class="hero">
+        <div class="shell hero-grid">
+            <div class="hero-copy" data-aos="fade-right">
+                <p class="eyebrow">Portfolio personal</p>
+                <h1 class="hero-title">Proyecto M1</h1>
+                <p class="hero-subtitle">Frontend con HTML, CSS y JavaScript con enfoque MVP y mejora continua.</p>
+            </div>
+            <div class="hero-highlight tilt" data-aos="fade-left" data-aos-delay="100">
+                <p class="highlight-label">Objetivo</p>
+                <p>Construir una UI con impacto visual, componentes reutilizables y base lista para conectar backend.</p>
+            </div>
+        </div>
     </header>
-    <main>
-        <div class="inicio">
-            <a href="">Inicio</a>
-        </div>
-        <div class="QuienesSomos">
-            <a href="">Quienes somos</a>
-        </div>
-        <div class="contactanos">
-            <a href="">Contáctanos</a>
-        </div>
-        <hr>
-        <div class="letrero">
-            <p class="letrero" >
-                PROXIMAMENTE EN NUESTRAS SALAS
-            </p>
-        </div>
-        <hr class="hr">
-        <section class="section1">
-            <div class="imagen1">
-                <a href="""><img src="./pages/kunfuPanda.png" class="logo" alt="imagenes1"></a>
-            </div>
-            <div class="imagen1">
-                <a href=""><img src="./pages/mummy.png" class="logo" alt="imagenes1"></a>
-            </div>
-            <div class="imagen1">
-                <a href=""><img src="./pages/SpiderMan.png" class="logo" alt="imagenes1"></a>
-            </div>
-        </section>
-        <hr class="hr">
-        <section class="section2">
-            <di v class="card1">
-                <div>
-                    <h4>Guardians of the Galaxy vol. 2</h4>
-                    <img src="" class="guardians" alt="">
-                </div>       
-                <div>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                </div>
-            </di>
-            <div class="card2">
-                <div>
-                    <h4>Start Wars: Episode IV-A new hope</h4>
-                    <img src="" class="startWars" alt="">
-                </div> 
-                <div>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                </div>
-            </div>    
-            <div class="card3">
-                <div>
-                    <h4>The Lord of the rings:The fellowship of the Ring</h4>
-                    <img src="" class="rings" alt="">
-                </div>
-                <div>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                </div>
 
+    <main class="shell layout">
+        <section class="panel about" data-aos="fade-up">
+            <div class="about-copy">
+                <h2>Sobre mi</h2>
+                <p>
+                    Mi nombre es Isaac, soy de Piura y vivo en Lima. Me apasionan los deportes, la gastronomia
+                    y crear productos que mejoren cada iteracion. Este proyecto representa mi evolucion desde
+                    mis primeros pasos en programacion.
+                </p>
+            </div>
+            <figure class="about-photo-wrap tilt">
+                <img src="../img/isaac.jpeg" class="about-photo" alt="Foto de Isaac">
+                <figcaption class="photo-caption">Frontend Developer en crecimiento.</figcaption>
+            </figure>
+        </section>
+
+        <section class="panel" data-aos="fade-up" data-aos-delay="100">
+            <div class="section-head">
+                <h2>Mis tecnologias favoritas</h2>
+                <span class="section-chip">Stack base</span>
+            </div>
+            <div class="tech-grid">
+                <article class="tech-card tilt" data-aos="zoom-in" data-aos-delay="120">
+                    <h3>HTML</h3>
+                    <img src="../img/html.png" class="logo" alt="Logo de HTML">
+                </article>
+                <article class="tech-card tilt" data-aos="zoom-in" data-aos-delay="180">
+                    <h3>CSS</h3>
+                    <img src="../img/css.png" class="logo" alt="Logo de CSS">
+                </article>
+                <article class="tech-card tilt" data-aos="zoom-in" data-aos-delay="240">
+                    <h3>JavaScript</h3>
+                    <img src="../img/Javascript.png" class="logo" alt="Logo de JavaScript">
+                </article>
             </div>
         </section>
 
+        <section class="panel" data-aos="fade-up" data-aos-delay="180">
+            <div class="section-head">
+                <h2>Mis actividades favoritas</h2>
+                <span class="section-chip">Persistencia localStorage</span>
+            </div>
+            <form id="activityForm" class="formulario" novalidate>
+                <label for="nombre" class="field-label">Nombre de la actividad</label>
+                <input id="nombre" type="text" name="nombre" placeholder="Ej: Futbol" required>
+
+                <label for="descripcion" class="field-label">Descripcion</label>
+                <textarea id="descripcion" name="descripcion" placeholder="Que te gusta de esta actividad" required></textarea>
+
+                <label for="link" class="field-label">URL de imagen</label>
+                <input id="link" type="url" name="imagen" placeholder="https://..." required>
+
+                <div class="button-row">
+                    <button id="button" type="submit">Agregar actividad</button>
+                    <button id="clearButton" type="button">Borrar actividades</button>
+                </div>
+            </form>
+            <div class="containerCard" id="divContainerCards"></div>
+        </section>
     </main>
-    
+
+    <footer class="footer">
+        <p>&copy; 2026 - Mi presentacion</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script src="../scripts/index.js"></script>
 </body>
 </html>
