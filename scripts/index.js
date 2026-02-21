@@ -19,11 +19,10 @@ class Repository {
         const activity = new Activity(this.id, title, description, imgUrl);
         this.activities.push(activity);
     }
-
     deleteActivity(id) {
         this.activities = this.activities.filter(activity => activity.id !== id);
     }
-}
+};
 // Crear una instancia de la clase Repository
 const myActivitiesRepository = new Repository();
 
@@ -66,7 +65,7 @@ function renderListActivities() {
     activityElements.forEach(activity => {
         container.appendChild(activity);
     });
-}
+};
 function agregarActividadHandler(event) {
     event.preventDefault();
 
