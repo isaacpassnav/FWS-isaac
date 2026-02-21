@@ -10,7 +10,6 @@ class Activity {
 class Repository {
     constructor(initialActivities = []) {
         this.activities = [];
-        this.id = 0;
         this.hydrate(initialActivities);
     }
 
@@ -18,7 +17,6 @@ class Repository {
         this.activities = rawActivities.map(
             (activity) => new Activity(activity.id, activity.title, activity.description, activity.imgUrl)
         );
-        this.id = this.activities.reduce((maxId, activity) => Math.max(maxId, activity.id), 0);
     }
 
     getAllActivities() {
@@ -26,10 +24,14 @@ class Repository {
     }
 
     createActivity(title, description, imgUrl) {
-        this.id += 1;
-        const activity = new Activity(this.id, title, description, imgUrl);
+        const temporaryId = `tmp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        const activity = new Activity(temporaryId, title, description, imgUrl);
         this.activities.push(activity);
         return activity;
+    }
+
+    addExistingActivity(activity) {
+        this.activities.push(new Activity(activity.id, activity.title, activity.description, activity.imgUrl));
     }
 
     deleteActivity(id) {
@@ -42,6 +44,7 @@ class Repository {
 }
 
 const STORAGE_KEY = "isaac.activities";
+const API_BASE_URL = "http://localhost:3001/api";
 
 function loadActivitiesFromStorage() {
     if (typeof localStorage === "undefined") return [];
@@ -58,6 +61,33 @@ function loadActivitiesFromStorage() {
 function saveActivitiesToStorage(activities) {
     if (typeof localStorage === "undefined") return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(activities));
+}
+
+async function fetchActivitiesFromApi() {
+    const response = await fetch(`${API_BASE_URL}/activities`);
+    if (!response.ok) throw new Error("No se pudo obtener actividades.");
+    return response.json();
+}
+
+async function createActivityInApi(activityInput) {
+    const response = await fetch(`${API_BASE_URL}/activities`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(activityInput)
+    });
+
+    if (!response.ok) throw new Error("No se pudo crear la actividad.");
+    return response.json();
+}
+
+async function deleteActivityInApi(id) {
+    const response = await fetch(`${API_BASE_URL}/activities/${id}`, { method: "DELETE" });
+    if (!response.ok) throw new Error("No se pudo eliminar la actividad.");
+}
+
+async function clearActivitiesInApi() {
+    const response = await fetch(`${API_BASE_URL}/activities`, { method: "DELETE" });
+    if (!response.ok) throw new Error("No se pudo limpiar actividades.");
 }
 
 function activityCreateHTML(activity, onDelete) {
@@ -130,7 +160,7 @@ function createPresenter(repository) {
         imageUrlInput.value = "";
     }
 
-    function addActivity(event) {
+    async function addActivity(event) {
         event.preventDefault();
 
         const title = titleInput.value.trim();
@@ -142,19 +172,34 @@ function createPresenter(repository) {
             return;
         }
 
-        repository.createActivity(title, description, imgUrl);
-        syncAndRender();
-        clearForm();
+        try {
+            const createdActivity = await createActivityInApi({ title, description, imgUrl });
+            repository.addExistingActivity(createdActivity);
+            syncAndRender();
+            clearForm();
+        } catch (_error) {
+            alert("No se pudo guardar en backend. Verifica que la API este activa.");
+        }
     }
 
-    function deleteSingleActivity(id) {
-        repository.deleteActivity(id);
-        syncAndRender();
+    async function deleteSingleActivity(id) {
+        try {
+            await deleteActivityInApi(id);
+            repository.deleteActivity(id);
+            syncAndRender();
+        } catch (_error) {
+            alert("No se pudo eliminar en backend.");
+        }
     }
 
-    function clearAllActivities() {
-        repository.clearActivities();
-        syncAndRender();
+    async function clearAllActivities() {
+        try {
+            await clearActivitiesInApi();
+            repository.clearActivities();
+            syncAndRender();
+        } catch (_error) {
+            alert("No se pudo limpiar actividades en backend.");
+        }
     }
 
     form.addEventListener("submit", addActivity);
@@ -182,10 +227,17 @@ function initializeVisualEffects() {
     }
 }
 
-function initializeApp() {
+async function initializeApp() {
     if (typeof window === "undefined") return;
 
-    const initialActivities = loadActivitiesFromStorage();
+    let initialActivities = loadActivitiesFromStorage();
+
+    try {
+        initialActivities = await fetchActivitiesFromApi();
+    } catch (_error) {
+        // Fallback local para desarrollo cuando la API no esta activa.
+    }
+
     const repository = new Repository(initialActivities);
 
     createPresenter(repository);

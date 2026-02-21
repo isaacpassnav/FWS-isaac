@@ -142,7 +142,7 @@ h2 {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 1.2rem;
-    align-items: stretch;
+    align-items: center;
 }
 
 .about-copy {
@@ -157,19 +157,22 @@ h2 {
 
 .about-photo-wrap {
     margin: 0;
+    width: 100%;
+    max-width: 350px;
+    aspect-ratio: 3 / 4;
+    justify-self: end;
     border-radius: 18px;
     overflow: hidden;
     border: 1px solid var(--border);
     background: #111;
-    display: grid;
-    align-content: start;
+    display: block;
 }
 
 .about-photo {
     width: 100%;
-    height: auto;
-    object-fit: contain;
-    object-position: center top;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
     display: block;
 }
 
@@ -342,6 +345,11 @@ button {
 
     .about {
         grid-template-columns: 1fr;
+    }
+
+    .about-photo-wrap {
+        justify-self: center;
+        max-width: 360px;
     }
 }
 

@@ -5,12 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "jasmine",
-    "start": "live-server --no-css-inject --open=front/index.html --watch=front,scripts,img --ignore=node_modules,.git,spec"
+    "start": "live-server --no-css-inject --open=front/index.html --watch=front,scripts,img --ignore=node_modules,.git,spec",
+    "start:api": "node back/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.57.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "jasmine": "^5.1.0",
     "live-server": "^1.2.2"
   },
