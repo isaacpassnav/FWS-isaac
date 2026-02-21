@@ -44,7 +44,7 @@ class Repository {
 }
 
 const STORAGE_KEY = "isaac.activities";
-const API_BASE_URL = "http://localhost:3001/api";
+const LOCAL_API_BASE_URL = "http://localhost:3001/api";
 
 function loadActivitiesFromStorage() {
     if (typeof localStorage === "undefined") return [];
@@ -63,14 +63,23 @@ function saveActivitiesToStorage(activities) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(activities));
 }
 
-async function fetchActivitiesFromApi() {
-    const response = await fetch(`${API_BASE_URL}/activities`);
+function isValidHttpUrl(value) {
+    try {
+        const parsedUrl = new URL(value);
+        return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+    } catch (_error) {
+        return false;
+    }
+}
+
+async function fetchActivitiesFromApi(apiBaseUrl) {
+    const response = await fetch(`${apiBaseUrl}/activities`);
     if (!response.ok) throw new Error("No se pudo obtener actividades.");
     return response.json();
 }
 
-async function createActivityInApi(activityInput) {
-    const response = await fetch(`${API_BASE_URL}/activities`, {
+async function createActivityInApi(apiBaseUrl, activityInput) {
+    const response = await fetch(`${apiBaseUrl}/activities`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(activityInput)
@@ -80,13 +89,13 @@ async function createActivityInApi(activityInput) {
     return response.json();
 }
 
-async function deleteActivityInApi(id) {
-    const response = await fetch(`${API_BASE_URL}/activities/${id}`, { method: "DELETE" });
+async function deleteActivityInApi(apiBaseUrl, id) {
+    const response = await fetch(`${apiBaseUrl}/activities/${id}`, { method: "DELETE" });
     if (!response.ok) throw new Error("No se pudo eliminar la actividad.");
 }
 
-async function clearActivitiesInApi() {
-    const response = await fetch(`${API_BASE_URL}/activities`, { method: "DELETE" });
+async function clearActivitiesInApi(apiBaseUrl) {
+    const response = await fetch(`${apiBaseUrl}/activities`, { method: "DELETE" });
     if (!response.ok) throw new Error("No se pudo limpiar actividades.");
 }
 
@@ -143,6 +152,7 @@ function renderListActivities(repository, container, onDelete) {
 
 function createPresenter(repository, options = {}) {
     let useApi = Boolean(options.useApi);
+    const apiBaseUrl = options.apiBaseUrl || LOCAL_API_BASE_URL;
     const form = document.getElementById("activityForm");
     const titleInput = document.getElementById("nombre");
     const descriptionInput = document.getElementById("descripcion");
@@ -172,10 +182,14 @@ function createPresenter(repository, options = {}) {
             alert("Todos los campos deben ser completados.");
             return;
         }
+        if (!isValidHttpUrl(imgUrl)) {
+            alert("La imagen debe ser una URL valida (http o https).");
+            return;
+        }
 
         if (useApi) {
             try {
-                const createdActivity = await createActivityInApi({ title, description, imgUrl });
+                const createdActivity = await createActivityInApi(apiBaseUrl, { title, description, imgUrl });
                 repository.addExistingActivity(createdActivity);
                 syncAndRender();
                 clearForm();
@@ -193,7 +207,7 @@ function createPresenter(repository, options = {}) {
     async function deleteSingleActivity(id) {
         if (useApi) {
             try {
-                await deleteActivityInApi(id);
+                await deleteActivityInApi(apiBaseUrl, id);
                 repository.deleteActivity(id);
                 syncAndRender();
                 return;
@@ -209,7 +223,7 @@ function createPresenter(repository, options = {}) {
     async function clearAllActivities() {
         if (useApi) {
             try {
-                await clearActivitiesInApi();
+                await clearActivitiesInApi(apiBaseUrl);
                 repository.clearActivities();
                 syncAndRender();
                 return;
@@ -250,19 +264,26 @@ function initializeVisualEffects() {
 async function initializeApp() {
     if (typeof window === "undefined") return;
 
-    let initialActivities = loadActivitiesFromStorage();
-    let useApi = false;
+    const isLocalHost =
+        window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    const apiBaseUrl = isLocalHost ? LOCAL_API_BASE_URL : null;
 
-    try {
-        initialActivities = await fetchActivitiesFromApi();
-        useApi = true;
-    } catch (_error) {
-        // Fallback local cuando la API no esta disponible.
+    let initialActivities = loadActivitiesFromStorage();
+    let useApi = Boolean(apiBaseUrl);
+
+    if (apiBaseUrl) {
+        try {
+            initialActivities = await fetchActivitiesFromApi(apiBaseUrl);
+            useApi = true;
+        } catch (_error) {
+            useApi = false;
+            // Fallback local cuando la API no esta disponible.
+        }
     }
 
     const repository = new Repository(initialActivities);
 
-    createPresenter(repository, { useApi });
+    createPresenter(repository, { useApi, apiBaseUrl });
     initializeVisualEffects();
 }
 
